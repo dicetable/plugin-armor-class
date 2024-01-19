@@ -109,7 +109,7 @@ export const ArmorClassSettingContainer = withMemo(function ArmorClassSettingCon
                         onChangeDone={updateAcForAll}
                         onChangeDoneData={index}
                         className={classNames(styles.acInput, { [styles.active]: index === selectedAc })}
-                        label={t('armor-class.settings.item-label', { index })}
+                        label={t('armor-class.settings.item-label', { index: index + 1 })}
                     />
                 ))}
                 <Grow />
