@@ -1,0 +1,5 @@
+{
+  "armor-class.settings.item-label": "AC {{index}}",
+  "armor-class.settings.label": "Armor Classes:",
+  "armor-class.settings.visible-for": "Sichtbar für"
+}
