@@ -18,8 +18,8 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "typeRoots": [
-      "./node_modules/@types",
-        "./src/definitions"
+      "node_modules/@types",
+      "node_modules/react-bootstrap-mobile/src/types"
     ],
     "strict": true,
     "strictFunctionTypes": false,
@@ -27,19 +27,33 @@
     "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "incremental": true,
+    "allowArbitraryExtensions": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "types": [
+      "node"
+    ],
+    "incremental": false,
     "baseUrl": ".",
     "paths": {
       "@/*": [
         "src/*"
       ]
     }
-},
+  },
+  "exclude": [
+  ],
   "include": [
     "src/**/*.ts",
-    "src/**/*.d.ts",
     "src/**/*.tsx"
   ],
-  "exclude": []
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs",
+      "jsx": "react"
+    }
+  }
 }
-

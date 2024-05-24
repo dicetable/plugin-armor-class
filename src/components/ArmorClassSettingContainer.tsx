@@ -10,9 +10,9 @@ import React, { useCallback, useMemo } from 'react';
 import classNames from 'classnames';
 import styles from '@/components/armorClassSettingContainer.scss';
 import type { ChangeEvent } from 'react';
-import type { TokenObject } from '@dicetable/plugin-shell/dist/src/shared/Objects/ObjectType';
+import type { ClientTokenType} from '@dicetable/plugin-shell';
 
-export type ArmorClassSettingContainerProps = { token: TokenObject };
+export type ArmorClassSettingContainerProps = { token: ClientTokenType };
 
 export const ArmorClassSettingContainer = withMemo(function ArmorClassSettingContainer({
     token,
@@ -23,17 +23,17 @@ export const ArmorClassSettingContainer = withMemo(function ArmorClassSettingCon
 
     // States/Variables/Selectors
     const api = useAcPluginApi();
-    const { usePluginObjectData } = api.stores();
+    const { usePluginTokenData } = api.stores();
 
-    const acs = usePluginObjectData(
+    const acs = usePluginTokenData(
         token.id,
         useShallow((s) => s?.armorClasses ?? [])
     );
     const usedAcs = useMemo(() => formatArrayLength(acs, constants.MAX_ARMOR_CLASSES), [acs]);
 
-    let selectedAc = usePluginObjectData(token.id, (s) => s?.armorClassIndex ?? 0);
+    let selectedAc = usePluginTokenData(token.id, (s) => s?.armorClassIndex ?? 0);
     selectedAc = Math.min(Math.max(selectedAc, 0), constants.MAX_ARMOR_CLASSES - 1);
-    const visibleFor = usePluginObjectData(token.id, (s) => s?.visibleFor ?? VisibleEnum.EDITORS);
+    const visibleFor = usePluginTokenData(token.id, (s) => s?.visibleFor ?? VisibleEnum.EDITORS);
 
     // Callbacks
     const updateAc = useCallback(
@@ -42,12 +42,12 @@ export const ArmorClassSettingContainer = withMemo(function ArmorClassSettingCon
             const newAcs = [...acs];
             newAcs.splice(index, 1, newAc);
             if (local) {
-                usePluginObjectData.setLocalState(token.id, { armorClasses: newAcs });
+                usePluginTokenData.setLocalState(token.id, { armorClasses: newAcs });
             } else {
-                usePluginObjectData.setState(token.id, { armorClasses: newAcs });
+                usePluginTokenData.setState(token.id, { armorClasses: newAcs });
             }
         },
-        [acs, token.id, usePluginObjectData]
+        [acs, token.id, usePluginTokenData]
     );
 
     const updateAcLocally = useCallback(
@@ -66,9 +66,9 @@ export const ArmorClassSettingContainer = withMemo(function ArmorClassSettingCon
 
     const updateVisibleFor = useCallback(
         (newVisibleFor: VisibleEnum) => {
-            usePluginObjectData.setState(token.id, { visibleFor: newVisibleFor });
+            usePluginTokenData.setState(token.id, { visibleFor: newVisibleFor });
         },
-        [token.id, usePluginObjectData]
+        [token.id, usePluginTokenData]
     );
 
     // Effects

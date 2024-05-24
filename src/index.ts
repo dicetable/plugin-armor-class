@@ -3,7 +3,7 @@ import { ArmorClassSymbol } from '@/components/ArmorClassSymbol';
 import { Events, TokenWindowTab, registerPlugin, useGlobalSettings } from '@dicetable/plugin-shell';
 import { translationPromise } from '@/initI18n';
 import i18n from 'i18next';
-import manifest from '@/manifest.json';
+import manifest from '@/manifest';
 
 registerPlugin(manifest.id, (api) => {
     // First add the input for the AC to the token window

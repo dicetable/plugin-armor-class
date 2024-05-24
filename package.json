@@ -1,39 +1,35 @@
 {
   "name": "dicetable-plugin-armor-class",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Displays the armor class of a token",
   "scripts": {
     "build": "webpack",
     "typecheck": "tsc --noEmit",
-    "eslint:noCache": "eslint \"src/{**/*,*}.{js,jsx,tsx,ts}\"",
-    "eslint": "npm run eslint:noCache -- --cache",
-    "eslint:fix": "npm run eslint -- --fix"
+    "lint:noCache": "eslint \"src/{**/*,*}.{js,jsx,tsx,ts}\"",
+    "lint": "npm run eslint:noCache -- --cache",
+    "lint:fix": "npm run eslint -- --fix"
   },
   "dependencies": {
     "@ainias42/js-helper": "^0.8.10",
     "@ainias42/react-bootstrap-mobile": "^0.1.28",
-    "@dicetable/plugin-shell": "^1.0.0",
+    "@dicetable/plugin-shell": "^0.1.1",
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "@react-three/fiber": "^8.15.14",
-    "@types/three": "^0.160.0",
+    "@types/three": "^0.144.0",
     "classnames": "^2.5.1",
-    "css-loader": "^6.9.1",
     "i18next": "^23.7.16",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.2.0",
     "react-i18next": "^14.0.0",
-    "sass": "^1.70.0",
-    "sass-loader": "^14.0.0",
-    "three": "^0.160.0",
+    "three": "^0.144.0",
     "zustand": "^4.4.7"
   },
   "author": "DiceTable",
   "devDependencies": {
-    "@types/react": "^18.2.45",
     "eslint": "^8.55.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.1.0",
@@ -51,7 +47,6 @@
     "eslint-plugin-testing-library": "^6.2.0",
     "eslint-webpack-plugin": "^4.0.1",
     "prettier": "^2.3.2",
-    "typescript": "^5.3.3",
-    "zustand": "^4.4.7"
+    "ajv": "^8.13.0"
   }
 }

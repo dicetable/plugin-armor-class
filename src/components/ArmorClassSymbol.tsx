@@ -5,7 +5,9 @@ import {
     VisibleEnum,
     hasRight,
     isVisibleFor,
+    useMe,
     useTokenBoundingBox,
+    useTokens,
 } from '@dicetable/plugin-shell';
 import { faShield } from '@fortawesome/free-solid-svg-icons';
 import { useAcPluginApi } from '@/useAcPluginApi';
@@ -20,23 +22,22 @@ export const ArmorClassSymbol = withMemo(function ArmorClassSymbol({ tokenId }: 
 
     // States/Variables/Selectors
     const api = useAcPluginApi();
-    const { usePluginObjectData, useObjects } = api.stores();
-    const { useMe } = api.hooks();
+    const { usePluginTokenData } = api.stores();
     const me = useMe();
-    const token = useObjects((s) => s.objects[tokenId]);
+    const token = useTokens((s) => s.tokens[tokenId]);
     const canEditToken = useMemo(() => hasRight(token?.editors ?? [], me), [me, token?.editors]);
 
     const boundingBox = useTokenBoundingBox();
     const dimension = boundingBox.getDimension();
 
-    const acs = usePluginObjectData(
+    const acs = usePluginTokenData(
         tokenId,
         useShallow((s) => ArrayHelper.noUndefined(s?.armorClasses ?? []).filter((ac) => ac !== null))
     );
 
-    let selectedAc = usePluginObjectData(tokenId, (s) => s?.armorClassIndex ?? 0);
+    let selectedAc = usePluginTokenData(tokenId, (s) => s?.armorClassIndex ?? 0);
     selectedAc = Math.min(Math.max(selectedAc, 0), acs.length - 1);
-    const visibleFor = usePluginObjectData(tokenId, (s) => s?.visibleFor ?? VisibleEnum.EDITORS);
+    const visibleFor = usePluginTokenData(tokenId, (s) => s?.visibleFor ?? VisibleEnum.EDITORS);
 
     // Dispatch
 
@@ -45,30 +46,32 @@ export const ArmorClassSymbol = withMemo(function ArmorClassSymbol({ tokenId }: 
         (newAc: string) => {
             let newAcValue: undefined | number;
 
-            if (newAc.trim() !== '') {
-                const acNumber = parseInt(newAc, 10);
-                if (Number.isNaN(acNumber)) {
-                    return;
-                }
+            if (newAc.trim() === '') {
+                return;
+            }
 
-                const currentAc = acs[selectedAc] ?? 0;
-                newAcValue = acNumber;
-                if (newAc.startsWith('+') || newAc.startsWith('-')) {
-                    newAcValue = currentAc + acNumber;
-                }
+            const acNumber = parseInt(newAc, 10);
+            if (Number.isNaN(acNumber)) {
+                return;
+            }
+
+            const currentAc = acs[selectedAc] ?? 0;
+            newAcValue = acNumber;
+            if (newAc.startsWith('+') || newAc.startsWith('-')) {
+                newAcValue = currentAc + acNumber;
             }
 
             const newAcs: (number | undefined)[] = [...acs];
             newAcs[selectedAc] = newAcValue;
-            usePluginObjectData.setState(tokenId, { armorClasses: newAcs });
+            usePluginTokenData.setState(tokenId, { armorClasses: newAcs });
         },
-        [acs, selectedAc, tokenId, usePluginObjectData]
+        [acs, selectedAc, tokenId, usePluginTokenData]
     );
 
     const changeAc = useCallback(() => {
         const newSelectedAc = (selectedAc + 1) % acs.length;
-        usePluginObjectData.setState(tokenId, { armorClassIndex: newSelectedAc });
-    }, [acs.length, selectedAc, tokenId, usePluginObjectData]);
+        usePluginTokenData.setState(tokenId, { armorClassIndex: newSelectedAc });
+    }, [acs.length, selectedAc, tokenId, usePluginTokenData]);
 
     // Effects
 
